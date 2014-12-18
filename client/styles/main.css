@@ -1,9 +1,18 @@
-.currentEvent{
-    float: left;
+body{
+    background: #282725;
+    font-size: 20px;
+    color: #DADADA
 }
-.upcomingEvents{
-    float: right;
+.main-logo{
+    text-align: center;
+    padding-bottom: 120px;
 }
-.event{
+.main-location{
+    /*text-align: center;*/
+}
+.no-current-event{
+    font-size: 50px;
+}
+.upcoming-event{
     padding-bottom: 20px;
 }

@@ -1,11 +1,6 @@
-angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval) {
-    var PARSE_CONST={
-        BEGIN_EVENT: 'BEGIN:VEVENT',
-        TIME_START: 'DTSTART',
-        TIME_END: 'DTEND',
-        DATE_PRE: 'DATE-TIME:'
-    };
+'use strict';
 
+angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval) {
     $scope.events = [];
 
     $scope.fetchEvents = function(){
@@ -46,7 +41,7 @@ angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval) 
     };
 
     $scope.refreshCurrentEvent = function(){
-        console.log('refresh current')
+        console.log('refresh')
         var unixCur = moment().unix();
         $scope.currentEvent = _.find($scope.events, function(event){
             return event.unixStart <= unixCur && event.unixEnd >= unixCur;
@@ -60,6 +55,9 @@ angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval) 
 
     $scope.formatUnix = function(unix, format){
         return moment.unix(unix).format(format);
+    };
+    $scope.formatNow = function(format){
+        return moment().format(format);
     };
 
 
