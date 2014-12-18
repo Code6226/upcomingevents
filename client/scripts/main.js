@@ -67,6 +67,10 @@ angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval, 
         return !curEvent || moment.unix(prevEvent.unixStart).format('YYYYMMDD') !== moment.unix(curEvent.unixStart).format('YYYYMMDD');
     };
 
+    $scope.isUnixToday = function (unix) {
+        return moment.unix(unix).format('YYYYMMDD') === moment().format('YYYYMMDD');
+    };
+
     $scope.formatUnix = function(unix, format){
         return moment.unix(unix).format(format);
     };

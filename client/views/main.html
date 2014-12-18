@@ -21,7 +21,11 @@
                 <!--<div>{{formatNow('ll')}}</div>-->
                 <div ng-repeat="event in upcomingEvents" class="">
                     <div ng-if="isUpcomingEventOnNewDate($index)" class="upcoming-event-date-heading">
-                        {{formatUnix(event.unixStart, 'ddd, MMM D YYYY')}}
+                        <span ng-if="isUnixToday(event.unixStart)">Today, </span>
+                        <span ng-if="!isUnixToday(event.unixStart)">
+                            {{formatUnix(event.unixStart, 'ddd, ')}}
+                        </span>
+                        <span>{{formatUnix(event.unixStart, 'MMM D YYYY')}}</span>
                     </div>
                     <div class="upcoming-event">
                         <div>
