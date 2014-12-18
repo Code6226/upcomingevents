@@ -8,11 +8,11 @@ angular
     ])
     .config(function ($routeProvider) {
         $routeProvider
-            .when('/', {
+            .when('/location/:location', {
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/location/M-Eola'
             });
     });

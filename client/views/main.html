@@ -3,7 +3,7 @@
         <div class="col-xs-7">
             <div class="main-logo">
                 <div><img src="img/logo.jpg"/></div>
-                <div class="main-location">M-Eola</div>
+                <div class="main-location">{{location}}</div>
             </div>
             <div ng-hide="currentEvent" class="no-current-event">OPEN</div>
             <div ng-show="currentEvent" class="current-event">
@@ -23,7 +23,7 @@
                         {{formatUnix(event.unixStart, 'ddd, MMM D YYYY')}}
                     </div>
                     <p>
-                        {{event.name}} ({{event.location}})<br>
+                        {{event.name}}<br>
                         {{formatUnix(event.unixStart, 'h:mma')}} - {{formatUnix(event.unixEnd, 'h:mma')}}
                     </p>
                 </div>

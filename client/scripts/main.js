@@ -1,7 +1,9 @@
 'use strict';
 
-angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval) {
+angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval, $routeParams) {
     $scope.events = [];
+
+    $scope.location = $routeParams.location;
 
     $scope.fetchEvents = function(){
         console.log('fetch')
@@ -35,6 +37,9 @@ angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval) 
                     unixEnd: getTimeFromTS(getValueForKey('dtend'))
                 };
             });
+            // only for this location
+            $scope.events = _.filter($scope.events, {location: $scope.location});
+
             $scope.refreshCurrentEvent();
             $scope.$apply();
         });
