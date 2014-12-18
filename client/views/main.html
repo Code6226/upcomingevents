@@ -13,19 +13,24 @@
         </div>
 
         <div class="col-xs-5 right-side">
-            <div class="clock">
-                {{formatNow('h:mm')}}
+            <div class="clock" ng-dblclick="easterEgg = true">
+                <div ng-hide="easterEgg">{{formatNow('h:mm')}}</div>
+                <div ng-show="easterEgg">by Code6226</div>
             </div>
             <div class="upcoming-events">
                 <!--<div>{{formatNow('ll')}}</div>-->
-                <div ng-repeat="event in upcomingEvents" class="upcoming-event">
-                    <div ng-if="isUpcomingEventOnNewDate($index)" class="date-heading">
+                <div ng-repeat="event in upcomingEvents" class="">
+                    <div ng-if="isUpcomingEventOnNewDate($index)" class="upcoming-event-date-heading">
                         {{formatUnix(event.unixStart, 'ddd, MMM D YYYY')}}
                     </div>
-                    <p>
-                        {{event.name}}<br>
-                        {{formatUnix(event.unixStart, 'h:mma')}} - {{formatUnix(event.unixEnd, 'h:mma')}}
-                    </p>
+                    <div class="upcoming-event">
+                        <div>
+                            {{event.name}}
+                        </div>
+                        <div class="upcoming-event-time">
+                            {{formatUnix(event.unixStart, 'h:mma')}} - {{formatUnix(event.unixEnd, 'h:mma')}}
+                        </div>
+                    </div>
                 </div>
             </div>
 

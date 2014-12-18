@@ -47,6 +47,7 @@ angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval, 
 
     $scope.refreshCurrentEvent = function(){
         console.log('refresh')
+        $scope.easterEgg = false;
         var unixCur = moment().unix();
         $scope.currentEvent = _.find($scope.events, function(event){
             return event.unixStart <= unixCur && event.unixEnd >= unixCur;
@@ -76,7 +77,7 @@ angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval, 
 
     $interval(function(){
         $scope.refreshCurrentEvent();
-    },30*1000);
+    },5*1000);
 
     $interval(function(){
         $scope.fetchEvents();
