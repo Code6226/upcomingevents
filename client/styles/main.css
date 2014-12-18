@@ -1,6 +1,6 @@
 body{
     background: #282725;
-    font-size: 20px;
+    font-size: 23px;
     color: #DADADA
 }
 .main-logo{
@@ -14,17 +14,38 @@ body{
     font-size: 100px;
     color: #7C7C7C;
 }
+.current-event-name{
+    font-size: 50px;
+    color: #8DB096;
+}
+.current-event-time{
+    font-size: 30px;
 
-.upcoming-events{
+}
+
+
+.right-side{
     border-left: 1px solid #565656;
+}
+.clock{
+    height: 20vh;
+    max-height: 20vh;
+    border-bottom: 1px solid #565656;
+    text-align: center;
+    font-size: 60px;
+}
+.upcoming-events{
+    height: 80vh;
+    max-height: 80vh;
     overflow-y: auto;
-    max-height: 100vh;
 }
 .upcoming-event{
-    padding-bottom: 10px;
+    padding-bottom: 5px;
+    line-height: 27px;
 }
 .upcoming-event .date-heading{
     padding-top: 10px;
+    padding-bottom: 5px;
     color: #66afe9;
-    font-size: 20px;
+    font-size: 25px;
 }
