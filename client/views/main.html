@@ -1,0 +1,18 @@
+<div>
+    <div class="currentEvent">
+        <div ng-hide="currentEvent">OPEN</div>
+        <div ng-show="currentEvent">
+            <div>{{currentEvent.name}}</div>
+            <div>{{formatUnix(currentEvent.unixStart, 'lll')}}</div>
+            <div>{{formatUnix(currentEvent.unixEnd, 'lll')}}</div>
+        </div>
+    </div>
+
+    <div class="upcomingEvents">
+        <div ng-repeat="event in upcomingEvents" class="event">
+            <div>{{event.name}} ({{event.location}})</div>
+            <div>{{formatUnix(event.unixStart, 'lll')}}</div>
+            <div>{{formatUnix(event.unixEnd, 'lll')}}</div>
+        </div>
+    </div>
+</div>

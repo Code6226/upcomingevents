@@ -1,0 +1,9 @@
+.currentEvent{
+    float: left;
+}
+.upcomingEvents{
+    float: right;
+}
+.event{
+    padding-bottom: 20px;
+}
