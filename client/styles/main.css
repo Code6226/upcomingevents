@@ -4,15 +4,27 @@ body{
     color: #DADADA
 }
 .main-logo{
-    text-align: center;
-    padding-bottom: 120px;
+    /*text-align: center;*/
+    padding-bottom: 80px;
 }
 .main-location{
-    /*text-align: center;*/
+    font-size: 30px;
 }
 .no-current-event{
-    font-size: 50px;
+    font-size: 100px;
+    color: #7C7C7C;
+}
+
+.upcoming-events{
+    border-left: 1px solid #565656;
+    overflow-y: auto;
+    max-height: 100vh;
 }
 .upcoming-event{
-    padding-bottom: 20px;
+    padding-bottom: 10px;
+}
+.upcoming-event .date-heading{
+    padding-top: 10px;
+    color: #66afe9;
+    font-size: 20px;
 }

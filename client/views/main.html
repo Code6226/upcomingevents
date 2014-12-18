@@ -1,22 +1,28 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-6">
-            <div class="main-logo"><img src="img/logo.jpg"/></div>
-            <div class="main-location">M-Eola</div>
+        <div class="col-xs-7">
+            <div class="main-logo">
+                <div><img src="img/logo.jpg"/></div>
+                <div class="main-location">M-Eola</div>
+            </div>
             <div ng-hide="currentEvent" class="no-current-event">OPEN</div>
             <div ng-show="currentEvent" class="current-event">
                 <div>{{currentEvent.name}}</div>
                 <div>{{formatUnix(currentEvent.unixStart, 'lll')}}</div>
-                <div>{{formatUnix(currentEvent.unixEnd, 'lll')}}</div>
+
             </div>
         </div>
 
-        <div class="upcoming-events col-xs-6">
+        <div class="upcoming-events col-xs-5">
             <!--<div>{{formatNow('ll')}}</div>-->
             <div ng-repeat="event in upcomingEvents" class="upcoming-event">
-                <div>{{event.name}} ({{event.location}})</div>
-                <div>{{formatUnix(event.unixStart, 'lll')}}</div>
-                <div>{{formatUnix(event.unixEnd, 'lll')}}</div>
+                <div ng-if="isUpcomingEventOnNewDate($index)" class="date-heading">
+                    {{formatUnix(event.unixStart, 'ddd, MMM D YYYY')}}
+                </div>
+                <p>
+                    <span>{{event.name}} ({{event.location}})</span><br>
+                    <span>{{formatUnix(event.unixStart, 'h:mma')}} - {{formatUnix(event.unixEnd, 'h:mma')}}</span>
+                </p>
             </div>
         </div>
     </div>
