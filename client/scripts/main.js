@@ -13,44 +13,31 @@ angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval) 
         $.ajax({
             url: "http://puchisoft.com/upcomingevents/ical.php"
         }).done(function(data) {
-            // jquery ical does not understand the dates format
-            //var parsed = $.icalendar.parse(data);
 
-            // ugly...
-            var eventsDump = data.split(PARSE_CONST.BEGIN_EVENT).splice(1);
+            var calDump = _.last(ICAL.parse(data));
+            var eventsDump = _.filter(calDump, function(item){
+                return item[0] === "vevent";
+            });
+            eventsDump = _.map(eventsDump, function(item){
+                return item[1];
+            });
+
             $scope.events = _.map(eventsDump, function(eventDump){
-                function getTimeAfterIndex(index){
-                    var indexDate = eventDump.indexOf(PARSE_CONST.DATE_PRE, index) + PARSE_CONST.DATE_PRE.length;
-                    var startTimestamp = eventDump.substring(indexDate, indexDate + 15);
-
+                function getTimeFromTS(ts){
                     // does not respect timezone, but this is only run in Canvs, so it's just local time there
-                    return moment()
-                        .year(startTimestamp.substring(0,4))
-                        .month(startTimestamp.substring(5,7) - 1)
-                        .date(startTimestamp.substring(6,8))
-                        .hour(startTimestamp.substring(9,11))
-                        .minute(startTimestamp.substring(12,14))
-                        .second(0)
-                        .unix();
+                    // if needed, the timezone string can be found next to the events, and could probably be understood by momentjs-timezones
+                    return moment(ts).unix();
                 }
-
                 function getValueForKey(key){ // key including :
-                    var item = _.find(eventDump.split('\n'), function(item){
-                        return item.substring(0, key.length) === key;
-                    });
-                    if(item){
-                        return item.substring(key.length);
-                    }
+                    return _.last(_.find(eventDump, {0: key}));
                 }
-
-                var indexStart = eventDump.indexOf(PARSE_CONST.TIME_START);
-                var indexEnd = eventDump.indexOf(PARSE_CONST.TIME_END);
 
                 return {
-                    name: getValueForKey('SUMMARY:'),
-                    location: getValueForKey('LOCATION:'),
-                    unixStart: getTimeAfterIndex(indexStart),
-                    unixEnd: getTimeAfterIndex(indexEnd)
+                    name: getValueForKey('summary'),
+                    location: getValueForKey('location'),
+                    description: getValueForKey('description'),
+                    unixStart: getTimeFromTS(getValueForKey('dtstart')),
+                    unixEnd: getTimeFromTS(getValueForKey('dtend'))
                 };
             });
             $scope.refreshCurrentEvent();
@@ -66,7 +53,7 @@ angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval) 
         });
 
         $scope.upcomingEvents = _.filter($scope.events, function(event){
-            return true || event.unixStart >= unixCur;
+            return event.unixStart >= unixCur;
         });
 
     };
