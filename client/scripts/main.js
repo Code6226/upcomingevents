@@ -1,48 +1,52 @@
 'use strict';
 
-angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval, $routeParams) {
+angular.module('eventsApp').controller('MainCtrl', function ($scope, $http, $timeout, $interval, $routeParams) {
     $scope.events = [];
+
+    $scope.downloadStatus = 'loading';
 
     $scope.location = $routeParams.location;
 
     $scope.fetchEvents = function(){
         console.log('fetch')
-        $.ajax({
-            url: "http://puchisoft.com/upcomingevents/ical.php"
-        }).done(function(data) {
+        $http.get('http://puchisoft.com/upcomingevents/ical.php')
+            .success(function(data, status, headers, config) {
+                $scope.downloadStatus = 'ok';
 
-            var calDump = _.last(ICAL.parse(data));
-            var eventsDump = _.filter(calDump, function(item){
-                return item[0] === "vevent";
+                var calDump = _.last(ICAL.parse(data));
+                var eventsDump = _.filter(calDump, function(item){
+                    return item[0] === "vevent";
+                });
+                eventsDump = _.map(eventsDump, function(item){
+                    return item[1];
+                });
+
+                $scope.events = _.map(eventsDump, function(eventDump){
+                    function getTimeFromTS(ts){
+                        // does not respect timezone, but this is only run in Canvs, so it's just local time there
+                        // if needed, the timezone string can be found next to the events, and could probably be understood by momentjs-timezones
+                        return moment(ts).unix();
+                    }
+                    function getValueForKey(key){ // key including :
+                        return _.last(_.find(eventDump, {0: key}));
+                    }
+
+                    return {
+                        name: getValueForKey('summary'),
+                        location: getValueForKey('location'),
+                        description: getValueForKey('description'),
+                        unixStart: getTimeFromTS(getValueForKey('dtstart')),
+                        unixEnd: getTimeFromTS(getValueForKey('dtend'))
+                    };
+                });
+                // only for this location
+                $scope.events = _.filter($scope.events, {location: $scope.location});
+
+                $scope.refreshCurrentEvent();
+            })
+            .error(function(data, status, headers, config) {
+                $scope.downloadStatus = 'failure';
             });
-            eventsDump = _.map(eventsDump, function(item){
-                return item[1];
-            });
-
-            $scope.events = _.map(eventsDump, function(eventDump){
-                function getTimeFromTS(ts){
-                    // does not respect timezone, but this is only run in Canvs, so it's just local time there
-                    // if needed, the timezone string can be found next to the events, and could probably be understood by momentjs-timezones
-                    return moment(ts).unix();
-                }
-                function getValueForKey(key){ // key including :
-                    return _.last(_.find(eventDump, {0: key}));
-                }
-
-                return {
-                    name: getValueForKey('summary'),
-                    location: getValueForKey('location'),
-                    description: getValueForKey('description'),
-                    unixStart: getTimeFromTS(getValueForKey('dtstart')),
-                    unixEnd: getTimeFromTS(getValueForKey('dtend'))
-                };
-            });
-            // only for this location
-            $scope.events = _.filter($scope.events, {location: $scope.location});
-
-            $scope.refreshCurrentEvent();
-            $scope.$apply();
-        });
     };
 
     $scope.refreshCurrentEvent = function(){
@@ -86,6 +90,10 @@ angular.module('eventsApp').controller('MainCtrl', function ($scope, $interval, 
     $interval(function(){
         $scope.fetchEvents();
     },10*60*1000);
+
+    $timeout(function(){
+        window.location.reload();
+    },24*60*60*1000);
 
     $scope.fetchEvents();
 });

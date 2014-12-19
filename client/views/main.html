@@ -3,9 +3,14 @@
         <div class="col-xs-12 col-sm-7">
             <div class="main-logo">
                 <div><img src="img/logo.jpg"/></div>
-                <div class="main-location">{{location}}</div>
+                <div class="main-location" ng-class="{failure: (downloadStatus == 'failure')}">
+                    {{location}}
+                </div>
             </div>
-            <div ng-hide="currentEvent" class="no-current-event">OPEN</div>
+            <div ng-hide="currentEvent" class="no-current-event">
+                <div ng-show="downloadStatus == 'loading'">LOADING</div>
+                <div ng-hide="downloadStatus == 'loading'">OPEN</div>
+            </div>
             <div ng-show="currentEvent" class="current-event">
                 <div class="current-event-name">{{currentEvent.name}}</div>
                 <div class="current-event-time">{{formatUnix(currentEvent.unixStart, 'h:mma')}} - {{formatUnix(currentEvent.unixEnd, 'h:mma')}}</div>
@@ -13,9 +18,9 @@
         </div>
 
         <div class="col-xs-12 col-sm-5 right-side">
-            <div class="clock hidden-xs" ng-dblclick="easterEgg = true">
+            <div class="clock hidden-xs" ng-click="easterEgg = true">
                 <div ng-hide="easterEgg">{{formatNow('h:mm')}}</div>
-                <div ng-show="easterEgg">by Code6226</div>
+                <div ng-show="easterEgg">Code6226</div>
             </div>
             <div class="upcoming-events">
                 <!--<div>{{formatNow('ll')}}</div>-->

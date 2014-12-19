@@ -13,17 +13,22 @@ body{
 .main-location{
     font-size: 30px;
 }
+.main-location.failure{
+    color: red;
+}
 .no-current-event{
     font-size: 100px;
     color: #7C7C7C;
 }
 .current-event-name{
     font-size: 50px;
+    line-height: 60px;
     color: #E5E5E5;
 }
 .current-event-time{
-    font-size: 35px;
-
+    font-size: 45px;
+    margin-left: 40px;
+    color: #949494;
 }
 
 
@@ -35,7 +40,7 @@ body{
     max-height: 20vh;
     border-bottom: 1px solid #565656;
     text-align: center;
-    font-size: 60px;
+    font-size: 80px;
 }
 .upcoming-events{
     height: 80vh;
