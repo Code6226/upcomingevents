@@ -61,6 +61,11 @@ angular.module('eventsApp').controller('MainCtrl', function ($scope, $http, $tim
             return event.unixStart >= unixCur;
         });
 
+        // limit shown upcoming to today
+        $scope.upcomingEvents = _.filter($scope.upcomingEvents, function(event){
+            return $scope.isUnixToday(event.unixStart);
+        });
+
     };
 
 

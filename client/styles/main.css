@@ -47,6 +47,11 @@ body{
     max-height: 80vh;
     overflow-y: auto;
 }
+.nothing-upcoming{
+    font-style: italic;
+    color: #949494;
+    text-align: center;
+}
 .upcoming-event-date-heading{
     padding-top: 10px;
     padding-bottom: 10px;
